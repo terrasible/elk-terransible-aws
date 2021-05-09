@@ -1,0 +1,34 @@
+---
+  - hosts: es-cluster
+    gather_facts: false
+    become: yes 
+    tasks:
+    - name: Hosts | populate inventory into hosts file
+      blockinfile:
+        dest: /etc/hosts
+        block: |-
+            {% for item in groups['es-cluster'] %}
+            {{ hostvars[item]['ip'] }} {{ item }}
+            {% endfor %}
+        state: present
+        create: yes
+        backup: yes
+        marker: "# Ansible inventory hosts {mark}"
+    
+    - name: Hosts | copy elasticsearch config file
+      copy:
+        src: ./elasticsearch.yml
+        dest: /etc/elasticsearch/
+        owner: root
+        group: elasticsearch
+        mode: 0664
+        backup: yes
+    
+    - name: reload systemd configuration
+      become: yes
+      command: systemctl daemon-reload
+    
+    - name: restart elasticsearch
+      systemd: name=elasticsearch state=restarted enabled=yes
+  
+

@@ -1,0 +1,13 @@
+node-1 ansible_host=52.77.226.48      ansible_user=ec2-user ip=10.0.101.90 
+node-2 ansible_host=54.254.67.122     ansible_user=ec2-user ip=10.0.102.116   
+node-3 ansible_host=54.179.47.251     ansible_user=ec2-user ip=10.0.101.64   
+
+# List all the nodes in the ES cluster
+[es-cluster]
+node-1
+node-2
+node-3
+
+# List all the Master eligible nodes under this group
+[master]
+node-1

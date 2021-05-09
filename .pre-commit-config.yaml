@@ -1,0 +1,14 @@
+repos:
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.9
+    hooks:
+      - id: gofmt
+      - id: golint
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.31.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_docs
+        args: ["-a", "--no-providers"]
+      - id: terraform_tflint
+      - id: terragrunt_fmt
